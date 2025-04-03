@@ -3,6 +3,7 @@ import './card.styles.css';
 import { CardBack } from './card-back.componsnets';
 
 export const PokemonCard = ({ card }) => {
+    console.log('pokemon card', card);
     // State to manage the flipped state of the card
     const [isFlipped, setIsFlipped] = useState(false);
 
