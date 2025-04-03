@@ -3,7 +3,11 @@ import React from 'react';
 export const CardBack = ({ card, handleFlip }) => {
     return (
         <div className="poke-card-back">
-            <p><strong>Type:</strong> {card.types.join(', ')}</p>
+            {card.types && card.types.length > 0 ? (
+                <p><strong>Type:</strong> {card.types.join(', ')}</p>
+            ) : (
+                <p><strong>Type:</strong> None</p>
+            )}
             <p><strong>HP:</strong> {card.hp}</p>
             <p><strong>Rarity:</strong> {card.rarity}</p>
             <p><strong>Set:</strong> {card.set.name}</p>

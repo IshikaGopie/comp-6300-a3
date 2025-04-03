@@ -11,24 +11,12 @@ class App extends Component {
             pokemons: [],
             types: [],
             searchField: '',
-            selectedType: ''
+            pokemonType: ''
         };
     }
 
     componentDidMount() {
         const api_key = process.env.REACT_APP_API_KEY;
-        fetch('https://api.pokemontcg.io/v2/cards', {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-Api-Key': api_key
-            }
-        })
-            .then(response => response.json())
-            .then(data => this.setState({ pokemons: data.data }))
-            .catch(error => console.log('Error fetching data:', error));
-
         fetch('https://api.pokemontcg.io/v2/types', {
             method: 'GET',
             headers: {
@@ -39,35 +27,49 @@ class App extends Component {
         })
             .then(response => response.json())
             .then(data => this.setState({ types: data.data }))
-            .catch(error => console.log('Error fetching data:', error));
+            .catch(error => console.log('Error fetching types:', error));
+
+        this.fetchAllPokemons(); // Initial fetch
     }
 
-    handleTypeChange = (event) => {
-        const selectedType = event.target.value;
-        this.setState({ selectedType });
+    fetchAllPokemons = () => {
+        const { searchField, pokemonType } = this.state;
+        const api_key = process.env.REACT_APP_API_KEY;
 
-        if (selectedType) {
-            const api_key = process.env.REACT_APP_API_KEY;
-            fetch(`https://api.pokemontcg.io/v2/cards?q=types:${selectedType}`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                    'X-Api-Key': api_key
-                }
-            })
-                .then(response => response.json())
-                .then(data => this.setState({ pokemons: data.data }))
-                .catch(error => console.log('Error fetching data:', error));
-        }
+        let query = [];
+        if (searchField) query.push(`name:${searchField}`);
+        if (pokemonType) query.push(`types:${pokemonType}`);
+
+        const queryString = query.length ? `?q=${query.join(' ')}` : '';
+
+        fetch(`https://api.pokemontcg.io/v2/cards${queryString}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-Api-Key': api_key
+            }
+        })
+            .then(response => response.json())
+            .then(data => this.setState({ pokemons: data.data }))
+            .catch(error => console.log('Error fetching Pokémon:', error));
+    };
+
+    nameSearchChangehandler = (event) => {
+        this.setState({ searchField: event.target.value });
+    };
+
+    typeChangehandler = (event) => {
+        this.setState({ pokemonType: event.target.value });
+    };
+
+    submitPokemon = (event) => {
+        event.preventDefault();
+        this.fetchAllPokemons();
     };
 
     render() {
-        const { pokemons, searchField, types, selectedType } = this.state;
-
-        const filteredPokemons = pokemons.filter(pokemon =>
-            pokemon.name.toLowerCase().includes(searchField.toLowerCase())
-        );
+        const { pokemons, searchField, types, pokemonType } = this.state;
 
         return (
             <div className="App">
@@ -75,18 +77,20 @@ class App extends Component {
                     <h1>Pokémon Cards</h1>
                 </header>
                 <main>
-                    <div className="search-container">
+                    <form className="search-container" onSubmit={this.submitPokemon}>
                         <SearchBox
                             placeholder="Search Pokémon"
-                            handleChange={e => this.setState({ searchField: e.target.value })}
+                            value={searchField}
+                            handleChange={this.nameSearchChangehandler}
                         />
                         <DropDown
                             types={types}
-                            selectedType={selectedType}
-                            handleTypeChange={this.handleTypeChange}
+                            pokemonType={pokemonType}
+                            handleTypeChange={this.typeChangehandler}
                         />
-                    </div>
-                    <PokemonList pokemons={filteredPokemons} />
+                        <button type="submit" className="submit-button">Submit</button>
+                    </form>
+                    <PokemonList pokemons={pokemons} />
                 </main>
             </div>
         );
