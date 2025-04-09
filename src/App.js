@@ -102,16 +102,16 @@ class App extends Component {
                         <SearchBox
                             placeholder="Search Pokémon"
                             value={searchField}
-                            handleChange={(e) => this.setState({ searchField: e.target.value })}
+                            handleChange={(e) => this.setState({searchField: e.target.value})}
                         />
+                        <button type="submit" className="submit-button">Search</button>
                         <button type="button" onClick={this.formToggle} className="filter-button">
                             {showFilter ? 'Hide Filters' : 'Show Filters'}
                         </button>
-                        <button type="submit" className="submit-button">Search</button>
                     </form>
 
                     {showFilter && (<FilterForm
-                             types={types}
+                            types={types}
                             subtypes={subtypes}
                             supertypes={supertypes}
                             rarities={rarities}
