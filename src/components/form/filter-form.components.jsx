@@ -3,6 +3,9 @@ import './filter-form.styles.css';
 
 export const FilterForm = ({types, subtypes, supertypes, rarities, filters, handleChange, onSubmit, onClose}) => {
     return (
+        // Filter form container
+        // to filter Pokémon cards based on certain fields
+        // the form contains select elements for each filter type
         <div className="filter-form">
             <form className="filter-form-filters" onSubmit={onSubmit}>
                 <h2>Filter Pokémon</h2>

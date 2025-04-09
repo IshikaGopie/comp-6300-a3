@@ -18,13 +18,15 @@ class App extends Component {
             pokemonSubtype: '',
             pokemonSupertype: '',
             pokemonRarity: '',
-            showFilter: false
+            showFilter: false, // State to control the visibility of the filter form
+            loading: false // loading state for the Pokémon data
         };
     }
 
+    // Fetching data from the API when the component mounts
     componentDidMount() {
         const api_key = process.env.REACT_APP_API_KEY;
-        // initialize the list of types, subtypes, supertypes and rarities from the API
+        // initialize the list of types, subtypes, supertypes and rarities from the API for the filter form
         const endpoints = ['types', 'rarities', 'subtypes', 'supertypes'];
         endpoints.forEach(endpoint => {
             fetch(`https://api.pokemontcg.io/v2/${endpoint}`, {
@@ -43,6 +45,7 @@ class App extends Component {
         this.fetchAllPokemons();
     }
 
+    // Fetching all Pokémon data from the API with filters
     fetchAllPokemons = () => {
         const { searchField, pokemonType, pokemonSubtype, pokemonSupertype, pokemonRarity } = this.state;
         const api_key = process.env.REACT_APP_API_KEY;
@@ -56,7 +59,10 @@ class App extends Component {
 
         const queryString = query.length > 0 ? `?q=${query.join('&')}` : '';
 
-        console.log('Query String:', queryString);
+
+        //set loading state to true before fetching data
+        this.setState({ loading: true });
+        console.log('loading', this.state.loading);
 
         fetch(`https://api.pokemontcg.io/v2/cards${queryString}`, {
             method: 'GET',
@@ -67,8 +73,12 @@ class App extends Component {
             }
         })
             .then(response => response.json())
-            .then(data => this.setState({ pokemons: data.data }))
-            .catch(error => console.log('Error fetching Pokémon:', error));
+            .then(data => this.setState({ pokemons: data.data, loading: false }))
+            .catch(error => {
+                console.log('Error fetching Pokémon:', error);
+                alert('Error fetching the Pokémon data. Please try again later.');
+                this.setState({ loading: false });
+            });
     };
 
     // handles the change in the input fields of the filter form
@@ -94,6 +104,7 @@ class App extends Component {
         return (
             <div className="App">
                 <header className="App-header">
+                    <title>Pokémon Cards</title>
                     <h1>Pokémon Cards</h1>
                     <h2>Select a Card for More Information</h2>
                 </header>
@@ -122,7 +133,12 @@ class App extends Component {
                         />
                     )}
 
-                    <PokemonList pokemons={pokemons} />
+                    {this.state.loading ? (
+                        <div className="loader">
+                        </div>
+                    ) : (
+                        <PokemonList pokemons={pokemons} />
+                    )}
                 </main>
             </div>
         );

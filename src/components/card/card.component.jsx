@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './card.styles.css';
-import { CardBack } from './card-back.componsnets';
+import { CardBack } from './card-back.component';
 
 export const PokemonCard = ({ card }) => {
     console.log('pokemon card', card);
