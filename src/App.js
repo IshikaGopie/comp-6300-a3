@@ -10,6 +10,9 @@ class App extends Component {
         this.state = {
             pokemons: [],
             types: [],
+            subtypes: [],
+            supertypes: [],
+            rarities: [],
             searchField: '',
             pokemonType: ''
         };
@@ -28,6 +31,42 @@ class App extends Component {
             .then(response => response.json())
             .then(data => this.setState({ types: data.data }))
             .catch(error => console.log('Error fetching types:', error));
+
+        fetch('https://api.pokemontcg.io/v2/rarities', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-Api-Key': api_key
+            }
+        })
+            .then(response => response.json())
+            .then(data => this.setState({ rarities: data.data }))
+            .catch(error => console.log('Error fetching rarities:', error));
+
+        fetch('https://api.pokemontcg.io/v2/subtypes', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-Api-Key': api_key
+            }
+        })
+            .then(response => response.json())
+            .then(data => this.setState({ subtypes: data.data }))
+            .catch(error => console.log('Error fetching subtypes:', error));
+
+        fetch('https://api.pokemontcg.io/v2/supertypes', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-Api-Key': api_key
+            }
+        })
+            .then(response => response.json())
+            .then(data => this.setState({ supertypes: data.data }))
+            .catch(error => console.log('Error fetching supertypes:', error));
 
         this.fetchAllPokemons(); // Initial fetch
     }
