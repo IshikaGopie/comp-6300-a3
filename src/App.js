@@ -74,6 +74,15 @@ class App extends Component {
         })
             .then(response => response.json())
             .then(data => this.setState({ pokemons: data.data, loading: false }))
+            .then(() => {
+                this.setState({
+                    searchField: '',
+                    pokemonType: '',
+                    pokemonSubtype: '',
+                    pokemonSupertype: '',
+                    pokemonRarity: ''
+                });
+            })
             .catch(error => {
                 console.log('Error fetching Pokémon:', error);
                 alert('Error fetching the Pokémon data. Please try again later.');
