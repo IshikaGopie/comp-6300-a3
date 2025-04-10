@@ -57,7 +57,7 @@ class App extends Component {
         if (pokemonSupertype) query.push(`supertype:${pokemonSupertype.replace(/\s+/g, '.')}`);
         if (pokemonRarity) query.push(`rarity:${pokemonRarity.replace(/\s+/g, '.')}`);
 
-        const queryString = query.length > 0 ? `?q=${query.join('&')}` : '';
+        const queryString = query.length > 0 ? `?q=${query.join('+')}` : '';
 
 
         //set loading state to true before fetching data
