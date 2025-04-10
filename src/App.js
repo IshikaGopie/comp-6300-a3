@@ -143,10 +143,13 @@ class App extends Component {
                     )}
 
                     {this.state.loading ? (
-                        <div className="loader">
-                        </div>
-                    ) : (
+                        <div className="loader"></div>
+                    ) : pokemons.length > 0 ? (
                         <PokemonList pokemons={pokemons} />
+                    ) : (
+                        <div className="no-results">
+                            <p>No Pokémon found. Please try adjusting your search or filters.</p>
+                        </div>
                     )}
                 </main>
             </div>
