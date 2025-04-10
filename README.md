@@ -10,8 +10,6 @@
 ## Overview
 A React application that allows users to browse, search, and filter Pokémon Trading Card Game (TCG) cards using the Pokémon TCG API.
 
-![Pokémon Cards App Screenshot](my_app.png)
-
 ## Features
 - **Search Functionality**: Easily search for Pokémon cards by name
 - **Advanced Filtering**: Filter cards by:
