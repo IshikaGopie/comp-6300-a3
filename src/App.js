@@ -85,7 +85,7 @@ class App extends Component {
             })
             .catch(error => {
                 console.log('Error fetching Pokémon:', error);
-                alert('Error fetching the Pokémon data. Please try again later.');
+                alert('Error fetching Pokémon data. Please try again later.');
                 this.setState({ loading: false });
             });
     };
