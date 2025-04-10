@@ -22,6 +22,7 @@ class App extends Component {
             loading: false // loading state for the Pokémon data
         };
     }
+    // comment
 
     // Fetching data from the API when the component mounts
     componentDidMount() {
