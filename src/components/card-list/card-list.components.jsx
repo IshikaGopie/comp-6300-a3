@@ -11,5 +11,6 @@ export const PokemonList = (props) => {
                 <PokemonCard key={card.id} card={card} />
             ))}
         </div>
+        // This will render a list of Pokémon cards
     );
 };
