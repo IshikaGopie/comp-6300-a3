@@ -1,9 +1,3 @@
-# Student Information
-- **Name**: Ishika Gopie
-- **Student ID**: 816018253
-- **Course**: COMP 6300
-- **Assignment**: A3
-
 # System Information
 - **Operating System**: MacOS Sequoia 15.0.1
 - **Node Version**: v20.13.1
